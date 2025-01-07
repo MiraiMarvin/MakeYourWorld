@@ -1,47 +1,154 @@
 $background-color: #181818;
 $blue-color: #2443f3c7;
-$red-color: #FF0008;
+$red-color: #ff0008;
 
 body {
   font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   margin: 0;
   padding: 0;
   color: #ffffff;
-  background-color: $background-color;
+  background-color: $background-color; 
   position: relative;
-  overflow: hidden;
 }
+
 body::before {
-  content: "";
+  content: '';
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(rgba(255, 255, 255, 0.02) 1%, transparent 1%);
-  background-size: 2px 2px;
-  opacity: 0.9; /* Ajuste l'intensité du grain */
-  pointer-events: none; /* Pour que ça n'interfère pas avec les interactions */
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at bottom, $blue-color 40%, transparent 80%);
+  z-index: -1; 
+}
+body::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('public/assets/image/noise.png'); 
+  background-repeat: repeat; 
+  opacity: 0.23; 
+  pointer-events: none; 
+  z-index: -1 ;
+}
+section {
+  z-index:  5;
 }
 //fonts install
 @font-face {
-  font-family: 'platinium';
-  src: url('public\assets\fonts\AwesomeSerif-BoldRegular.otf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
+  font-family: 'awesome-serif';
+  src: url('/public/assets/fonts/AwesomeSerif-SemiBoldRegular.otf') format('opentype');
 }
-
+@font-face {
+  font-family: 'awesome-serif-tall';
+  src: url('/public/assets/fonts/AwesomeSerif-SemiBoldTall.otf') format('opentype');
+}
+@import url('https://fonts.googleapis.com/css2?family=Poly:ital@0;1&display=swap');
 h1 {
   color: $red-color;
   font-size: 64px;
-  font-family: 'platinium';
+  font-family: 'awesome-serif-Tall';
+  margin: 0;
 }
 h2 {
   color: #ffffff;
-  font-size: 32px;
-  font-family: 'platinium';
+  font-size: 40px;
+  font-family: 'awesome-serif';
+  margin: 0;
+}
+h3 {
+  color: $red-color;
+  font-size: 20px;
+  font-family: 'awesome-serif';
+  margin: 0;
 }
 p {
   font-size: 16px;
-  font-family: 'platinium';   
+  font-family: 'Poly', sans-serif;  
+  text-align: center; 
 }
+
+.red{
+  color: $red-color;
+}
+.bold {
+  font-weight: 500;
+}
+
+li {
+  color: #ffffff;
+  font-size: 20px;
+  font-family: 'Poly';   
+}
+ul {
+  list-style: none; 
+  margin: 10px; 
+  padding: 10px; 
+}
+li {
+  margin: 7px 0;
+}
+#header {
+  .go_back{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    color: #ffffff;
+    font-size: 20px;
+    font-family: 'awesome-serif';
+  }
+  .go_back img{
+    width: 40px;
+    height: 40px;
+  }
+}
+#title{
+  padding-top: 10%;
+  padding-bottom: 5%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#canvas{
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+#content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: 5%;
+  .list-align {
+    display: flex;
+    flex-direction: row;
+    .left ul li, .right ul li {
+      text-transform: uppercase; 
+    }
+    .right, .left {
+      width: 50%;
+    }
+    .left{
+      text-align: right;
+    }
+  }
+  .title-align {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+  }
+}
+

@@ -1,27 +1,75 @@
+import React, { useEffect, useRef } from 'react';
 import './styles/app.scss'
+import { gsap } from 'gsap';
+import { ArtCanvas } from './components/ArtCanvas';
 
-function App() {
+
+const App: React.FC = () => {
+  const [timeLeft, setTimeLeft] = React.useState(200);
+  const imgRef = useRef<HTMLImageElement>(null);
+  
+
+  useEffect(() => {
+    if (timeLeft > 0) {
+      const timerId = setInterval(() => {
+        setTimeLeft(timeLeft - 1);
+      }, 1000);
+
+      return () => clearInterval(timerId);
+    }
+  }, [timeLeft]);
+  useEffect(() => {
+    const imgElement = imgRef.current;
+
+    if (imgElement) {
+      gsap.set(imgElement, { rotation: 0 });
+
+      imgElement.addEventListener('mouseenter', () => {
+        gsap.to(imgElement, { rotation: 360, duration: 1 });
+      });
+
+      imgElement.addEventListener('mouseleave', () => {
+        gsap.to(imgElement, { rotation: 0, duration: 1 });
+      });
+    }
+
+    return () => {
+      if (imgElement) {
+        imgElement.removeEventListener('mouseenter', () => {});
+        imgElement.removeEventListener('mouseleave', () => {});
+      }
+    };
+  }, []);
 
   return (
     <>
       <section id='header'>
+        <div className='go_back'>
+          <a href='https://github.com/MiraiMarvin/MakeYourWorld'>
+          <img ref={imgRef} src='public/assets/image/star.svg' alt='star' />
+          </a>
+          <p>GO BACK</p>
+          
+        </div>
       </section>
 
       <section id='title'>
-        <h2>“Votre cœur parle pour vous “</h2>
+        <h2>“VOTRE COEUR PARLE POUR VOUS“</h2>
       </section>
 
       <section id='canvas'>
-        {/* <canvas id='canvas' width='800' height='600'>< */}
+        <img src='public/assets/image/cover.png' alt='cover' />
       </section>
 
       <section id='content'>
         <div>
+          <div className='title-align'>
           <h1>P.LATINIU.M</h1>
-          <p>like a cry.</p>
-          <p>Laylow present:</p>
-          <div>
-            <div>
+          <h3>LIKE A CRY.</h3>
+          </div>
+          <p className='red bold'>LAYLOW PRESENT:</p>
+          <div className='list-align'>
+            <div className='left'>
               <ul>
                 <li>"Prismes Brisés(ft chuck noris)"</li>
                 <li>"Lumière Noire"</li>
@@ -32,7 +80,7 @@ function App() {
                 <li>"Sang Numérique (ft Mr anderson)"</li>
               </ul>
             </div>
-            <div>
+            <div className='right'>
               <ul>
                 <li>"Nuit de Chrome (ft damso)"</li>
                 <li>"Âmes Fracturées"</li>
@@ -44,9 +92,13 @@ function App() {
               </ul>
             </div>
           </div>
-          <p>Disponible sur toutes les plateformes le  le  vendredi 19 juin 2025 a Minuit </p>
+          <p className='red bold'>Available in {timeLeft}</p>
         </div>
       </section>
+      <section id="test">
+      <ArtCanvas />
+      </section>
+      
     </>
   )
 }
