@@ -1,0 +1,24 @@
+$primary-color: #e91e63;
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+}
+
+h1 {
+  color: green;
+}
+
+.animated-box {
+  width: 100px;
+  height: 100px;
+  background-color: $primary-color;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 1.2rem;
+  border-radius: 8px;
+}
