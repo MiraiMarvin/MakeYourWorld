@@ -1,6 +1,6 @@
-// Question.tsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import '../styles/components/question.scss';
+import { gsap } from 'gsap';
 
 interface QuestionProps {
   number: number;
@@ -18,13 +18,32 @@ const Question: React.FC<QuestionProps> = ({ number, text, onAnswer }) => {
   const isLastQuestion = number === 3;
   const [value, setValue] = useState(0);
   const [selectedChoice, setSelectedChoice] = useState<'or' | 'argent' | null>(null);
-  const [debugMode, setDebugMode] = useState(false); // Pour afficher les valeurs stockées
+  const [debugMode, setDebugMode] = useState(false);
+  const imgRef = useRef<HTMLImageElement>(null);
+
+  useEffect(() => {
+    const imgElement = imgRef.current;
+    if (imgElement) {
+      gsap.set(imgElement, { rotation: 0 });
+      imgElement.addEventListener('mouseenter', () => {
+        gsap.to(imgElement, { rotation: 360, duration: 1 });
+      });
+      imgElement.addEventListener('mouseleave', () => {
+        gsap.to(imgElement, { rotation: 0, duration: 1 });
+      });
+    }
+    return () => {
+      if (imgElement) {
+        imgElement.removeEventListener('mouseenter', () => {});
+        imgElement.removeEventListener('mouseleave', () => {});
+      }
+    };
+  }, []);
 
   useEffect(() => {
     const savedAnswers = localStorage.getItem('userAnswers');
     if (savedAnswers) {
       const answers: UserAnswers = JSON.parse(savedAnswers);
-      
       switch(number) {
         case 1:
           setValue(answers.question1 || 0);
@@ -58,7 +77,6 @@ const Question: React.FC<QuestionProps> = ({ number, text, onAnswer }) => {
     }
 
     localStorage.setItem('userAnswers', JSON.stringify(currentAnswers));
-    console.log('Réponses sauvegardées:', currentAnswers); // Log pour debug
     onAnswer();
   };
 
@@ -136,7 +154,6 @@ const Question: React.FC<QuestionProps> = ({ number, text, onAnswer }) => {
     );
   };
 
-  // Debug panel pour voir les réponses stockées
   const renderDebugPanel = () => {
     if (!debugMode) return null;
 
@@ -161,7 +178,15 @@ const Question: React.FC<QuestionProps> = ({ number, text, onAnswer }) => {
 
   return (
     <div className="question-container">
-      {/* Debug toggle - appuyez sur 'd' pour afficher/masquer */}
+      <section id='header'>
+        <div className='go_back'>
+          <a href='https://github.com/MiraiMarvin/MakeYourWorld'>
+            <img ref={imgRef} src='public/assets/image/star.svg' alt='star' />
+          </a>
+          <p>GO BACK</p>
+        </div>
+      </section>
+
       <div onKeyPress={(e) => {
         if (e.key === 'd') setDebugMode(!debugMode);
       }} tabIndex={0}>
@@ -181,6 +206,11 @@ const Question: React.FC<QuestionProps> = ({ number, text, onAnswer }) => {
         </button>
 
         {renderDebugPanel()}
+      </div>
+
+      <div className='title-align'>
+        <h1>P.LATINIU.M</h1>
+        <h3>LIKE A CRY.</h3>
       </div>
     </div>
   );
