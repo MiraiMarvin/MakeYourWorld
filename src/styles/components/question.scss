@@ -1,6 +1,6 @@
 @import '../variables';
 
-.question-container {
+#questionSection {
   width: 100vw;
   height: 100vh;
   position: relative;
@@ -10,7 +10,6 @@
   justify-content: center;
   flex-direction: column;
   
-  // Background avec effet de grain
   &::before {
     content: '';
     position: fixed;
@@ -18,7 +17,8 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(180deg, $background-color 0%, $blue-color 100%);
+    // background: linear-gradient(180deg, $background-color 0%, $blue-color 100%);
+    background: linear-gradient(180deg, $background-color 0%, $background-color 55%, $blue-color 100%);
     z-index: -2;
   }
 
