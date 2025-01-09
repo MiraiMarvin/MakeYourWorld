@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Pane } from 'tweakpane';
 
 interface CanvasParams {
@@ -21,6 +21,7 @@ interface UserAnswers {
 }
 
 export const ArtCanvas: React.FC = () => {
+  const [isHovered, setIsHovered] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const baseImageRef = useRef<HTMLImageElement | null>(null);
   const overlayImageRef = useRef<HTMLImageElement | null>(null);
@@ -68,6 +69,15 @@ export const ArtCanvas: React.FC = () => {
     noiseIntensity: 0
   };
 
+  const handleDownload = () => {
+    if (canvasRef.current) {
+      const link = document.createElement('a');
+      link.download = 'platinium-cover.png';
+      link.href = canvasRef.current.toDataURL('image/png');
+      link.click();
+    }
+  };
+
   const loadImages = async (): Promise<[HTMLImageElement, HTMLImageElement]> => {
     const loadImage = (src: string): Promise<HTMLImageElement> => {
       return new Promise((resolve, reject) => {
@@ -79,7 +89,7 @@ export const ArtCanvas: React.FC = () => {
     };
 
     const [baseImage, overlayImage] = await Promise.all([
-      loadImage('/assets/image/cover_part1.png'),
+      loadImage('/assets/image/cover_test.png'),
       loadImage('/assets/image/cover_part2.png')
     ]);
 
@@ -351,7 +361,23 @@ export const ArtCanvas: React.FC = () => {
     };
   }, []);
 
-  return <canvas ref={canvasRef} className="art-canvas" />;
+  return (
+    <div 
+      className="canvas-wrapper"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <canvas ref={canvasRef} className="art-canvas" />
+      <div className={`download-overlay ${isHovered ? 'visible' : ''}`}>
+        <button 
+          className="download-button"
+          onClick={handleDownload}
+        >
+          TELECHARGER LA COVER
+        </button>
+      </div>
+    </div>
+  );
 };
 
 export default ArtCanvas;

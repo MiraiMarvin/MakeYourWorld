@@ -1,6 +1,50 @@
-.art-canvas {
-    width: 70vh;
-    height: 70vh;
-    display: block;
-    margin: 0 auto;
-  }
+// .canvas-wrapper {
+//     position: relative;
+//     width: 70vh;
+//     height: 70vh;
+//     margin: 0 auto;
+  
+//     .art-canvas {
+//         width: 100%;
+//         height: 100%;
+//         display: block;
+//     }
+  
+//     .download-overlay {
+//         position: absolute;
+//         top: 0;
+//         left: 0;
+//         width: 100%;
+//         height: 100%;
+//         display: flex;
+//         justify-content: center;
+//         align-items: center;
+//         background: rgba(0, 0, 0, 0.5);
+//         backdrop-filter: blur(5px);
+//         opacity: 0;
+//         transition: opacity 0.3s ease;
+//         pointer-events: none;
+    
+//         &.visible {
+//             opacity: 0.7;
+//             pointer-events: auto;
+//         }
+    
+//         .download-button {
+//             padding: 12px 24px;
+//             background: none;
+//             border: 2px solid white;
+//             color: white;
+//             font-family: 'awesome-serif';
+//             font-size: 16px;
+//             cursor: pointer;
+//             transition: all 0.3s ease;
+//             text-transform: uppercase;
+    
+//             &:hover {
+//             background: white;
+//             color: black;
+//             }
+//         }
+//     }
+//   }

@@ -9,9 +9,9 @@
     margin: 0;
     padding: 0;
     color: #ffffff;
-    // background-color: $background-color; 
     position: relative;
     width: 100%;
+    gap: 32px;
     
 
     &::before {
@@ -22,6 +22,7 @@
         right: 0;
         bottom: 0;
         background: linear-gradient(180deg, $background-color 0%, $blue-color 100%);
+        // background: linear-gradient(180deg, #181818 0%, #181818 55%, #2443f3c7 100%);
         z-index: -2;
     }
 
@@ -29,11 +30,11 @@
         content: '';
         position: fixed;
         inset: 0;
-        background-image: url('../assets/image/noise2.png');
+        background-image: url('../assets/image/noise.png');
         background-repeat: repeat;
         opacity: 0.23;
         pointer-events: none;
-        z-index: 1;
+        z-index: -1;
     }
 
     // section {
@@ -42,52 +43,46 @@
     // }
     
     #header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 10;
+    
         .go_back {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: fixed;
-            top: 10px;
-            left: 10px;
-            color: #ffffff;
-            font-size: 20px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          position: fixed;
+          top: 10px;
+          left: 10px;
+          color: #ffffff;
+          
+          img {
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+          }
+          
+          p {
+            margin: 5px 0;
             font-family: 'awesome-serif';
-            
-            img {
-                width: 40px;
-                height: 40px;
-            }
+            font-size: 14px;
+            color: #ffffff;
+          }
         }
-    }
+      }
   
   #title {
-    padding-top: 10%;
-    padding-bottom: 5%;
+    padding-top: 3%;
+    padding-bottom: 3%;
     display: flex;
     flex-direction: column;
     align-items: center;
-  }
-  
-  #canvas {
-    position: relative;
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-  
-    img {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-    //   z-index: 2;
-      object-fit: cover;
-    }
-  
-    .art-canvas {
-      width: 70vh;
-      height: 70vh;
-    //   z-index: 1;
+    .title-align {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
   }
   
@@ -96,31 +91,112 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 100%;
-    margin-top: 5%;
+    width: 50%;
     
     .list-align {
       display: flex;
-      flex-direction: row;
-      
-      .left, .right {
-        width: 50%;
-        
-        ul li {
-          text-transform: uppercase;
-        }
-      }
+      flex-direction: column;
+      align-items: center;
       
       .left {
-        text-align: right;
+        text-align: left;
+        text-transform: uppercase;
       }
     }
     
-    .title-align {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
   }
   
+}
+#arrow {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    width: 100%;
+  
+    #canvas-container {
+      padding: 16px 0;
+    }
+  
+    #canvas {
+      position: relative;
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+      width: 70vh;
+      height: 70vh;
+    
+      img {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 120%;
+        height: 120%;
+        object-fit: cover;
+        transform: translate(-50%, -50%);
+        opacity: 1;
+        mix-blend-mode: screen;
+        pointer-events: none;
+      }
+  
+      .canvas-wrapper {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        
+        .art-canvas {
+          width: 100%;
+          height: 100%;
+        }
+  
+        .download-overlay {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background: rgba(0, 0, 0, 0.5);
+          backdrop-filter: blur(5px);
+          opacity: 0;
+          transition: opacity 0.3s ease;
+          pointer-events: none;
+          z-index: 10;
+  
+          &.visible {
+            opacity: 1;
+            pointer-events: auto;
+          }
+  
+          .download-button {
+            padding: 12px 24px;
+            background: none;
+            border: 2px solid white;
+            color: white;
+            font-family: 'awesome-serif';
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+  
+            &:hover {
+              background: white;
+              color: black;
+            }
+          }
+        }
+      }
+    }
+  }
+
+#footer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  margin-top: 5%;
+  background-color: $background-color;
 }

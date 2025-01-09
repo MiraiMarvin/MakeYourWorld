@@ -1,0 +1,25 @@
+.countdown-container {
+    display: flex;
+    flex-direction: column;
+    padding: 32px 0;
+  
+    .release-info {
+      font-family: 'awesome-serif';
+      color: #FF0008;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+  }
+  
+  .countdown {
+    position: relative;
+    text-align: center;
+  
+    .time-display {
+      font-family: 'awesome-serif';
+      font-size: 4rem;
+      color: #FF0008;
+      font-weight: bold;
+      letter-spacing: 4px;
+    }
+  }

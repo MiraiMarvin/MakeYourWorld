@@ -9,6 +9,7 @@ interface QuestionProps {
   number: QuestionType;
   text: string;
   onAnswer: () => void;
+  onBack: () => void;
 }
 
 interface UserAnswers {
@@ -18,7 +19,7 @@ interface UserAnswers {
   timestamp?: number;
 }
 
-const Question: React.FC<QuestionProps> = ({ number, text, onAnswer }) => {
+const Question: React.FC<QuestionProps> = ({ number, text, onAnswer, onBack }) => {
   const imgRef = useRef<HTMLImageElement>(null);
   const [debugMode, setDebugMode] = useState(false);
 
@@ -56,16 +57,21 @@ const Question: React.FC<QuestionProps> = ({ number, text, onAnswer }) => {
     const imgElement = imgRef.current;
     if (!imgElement) return;
 
-    const animationEnter = () => gsap.to(imgElement, { rotation: 360, duration: 1 });
-    const animationLeave = () => gsap.to(imgElement, { rotation: 0, duration: 1 });
+    const handleMouseEnter = () => {
+      gsap.to(imgElement, { rotation: 360, duration: 1 });
+    };
+
+    const handleMouseLeave = () => {
+      gsap.to(imgElement, { rotation: 0, duration: 1 });
+    };
 
     gsap.set(imgElement, { rotation: 0 });
-    imgElement.addEventListener('mouseenter', animationEnter);
-    imgElement.addEventListener('mouseleave', animationLeave);
+    imgElement.addEventListener('mouseenter', handleMouseEnter);
+    imgElement.addEventListener('mouseleave', handleMouseLeave);
 
     return () => {
-      imgElement.removeEventListener('mouseenter', animationEnter);
-      imgElement.removeEventListener('mouseleave', animationLeave);
+      imgElement.removeEventListener('mouseenter', handleMouseEnter);
+      imgElement.removeEventListener('mouseleave', handleMouseLeave);
     };
   }, []);
 
@@ -134,7 +140,14 @@ const Question: React.FC<QuestionProps> = ({ number, text, onAnswer }) => {
           <div className="dot middle"></div>
           <div className="dot right"></div>
         </div>
-        <input type="range" min="0" max="10" step="0.1" value={value} onChange={handleSliderChange}className="slider"
+        <input 
+          type="range" 
+          min="0" 
+          max="10" 
+          step="0.1" 
+          value={value} 
+          onChange={handleSliderChange}
+          className="slider"
         />
         <div className="scale-labels">
           <span className="left-label">{labels.left}</span>
@@ -146,14 +159,14 @@ const Question: React.FC<QuestionProps> = ({ number, text, onAnswer }) => {
 
   return (
     <section id="questionSection">
-      <section id='header'>
-        <div className='go_back'>
-          <a href='https://github.com/MiraiMarvin/MakeYourWorld'>
+      {number > 1 && (
+        <section id='header'>
+          <div className='go_back' onClick={onBack} style={{ cursor: 'pointer' }}>
             <img ref={imgRef} src='public/assets/image/star.svg' alt='star' />
-          </a>
-          <p>GO BACK</p>
-        </div>
-      </section>
+            <p>GO BACK</p>
+          </div>
+        </section>
+      )}
 
       <div 
         onKeyPress={(e) => {
@@ -177,10 +190,23 @@ const Question: React.FC<QuestionProps> = ({ number, text, onAnswer }) => {
         </button>
 
         {debugMode && (
-          <div style={{ position: 'fixed', top: '10px',right: '10px',background: 'rgba(0,0,0,0.8)',padding: '10px',borderRadius: '5px',color: 'white',fontSize: '12px'
+          <div style={{ 
+            position: 'fixed', 
+            top: '10px',
+            right: '10px',
+            background: 'rgba(0,0,0,0.8)',
+            padding: '10px',
+            borderRadius: '5px',
+            color: 'white',
+            fontSize: '12px'
           }}>
             <pre>
-              {JSON.stringify({currentQuestion: number, value, selectedChoice,savedAnswers: JSON.parse(localStorage.getItem('userAnswers') || '{}')}, null, 2)}
+              {JSON.stringify({
+                currentQuestion: number,
+                value,
+                selectedChoice,
+                savedAnswers: JSON.parse(localStorage.getItem('userAnswers') || '{}')
+              }, null, 2)}
             </pre>
           </div>
         )}
